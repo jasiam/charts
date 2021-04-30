@@ -70,6 +70,14 @@ To install the chart with the release name `falcosidekick` run:
 helm install falcosidekick falcosecurity/falcosidekick --set webui.enabled=true
 ```
 
+## Using Mutual TLS feature
+
+To install the chart configuring the mutual tls support feature for compatible outputs run:
+
+```bash
+helm install --set config.mutualtlsfilespath=/etc/certs --set config.elasticsearch.hostport=https://XXXXX --set config.elasticsearch.mutualtls=true --set-file config.mutualtlssupport.clientcert=/localpath/myclientcert.crt --set-file config.mutualtlssupport.clientkey=/localpath/myclientkey.key --set-file config.mutualtlssupport.cacert=/localpath/myca.crt falcosidekick falcosecurity/falcosidekick
+```
+
 ### With Helm chart of Falco
 
 `Falco`, `Falcosidekick` and `Falcosidekick-ui` can be installed together in one command. All values to configure `Falcosidekick` will have to be

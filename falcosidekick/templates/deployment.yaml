@@ -74,13 +74,32 @@ spec:
               value: {{ .Values.config.debug | quote }}
             - name: CUSTOMFIELDS
               value: {{ .Values.config.customfields | quote }}
-            - name: CHECKCERT
-              value: {{ .Values.config.checkcert | quote }}
+            - name: MUTUALTLSFILESPATH
+              value: {{ .Values.config.mutualtlsfilespath | quote }}
             {{- if .Values.config.extraEnv }}
             {{ toYaml .Values.config.extraEnv | nindent 12 }}
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          {{- if .Values.config.mutualtlsfilespath }}
+            - mountPath: {{ .Values.config.mutualtlsfilespath | quote }}
+              name: mtls-certs-volume
+              readOnly: true
+          {{- end }}
+      volumes:
+      {{- if .Values.config.mutualtlsfilespath }}
+        - name: mtls-certs-volume
+          secret:
+            secretName: {{ include "falcosidekick.fullname" . }}
+            items:
+              - key: MUTUALTLSSUPPORT_CLIENTCERT
+                path: client.crt
+              - key: MUTUALTLSSUPPORT_CLIENTKEY
+                path: client.key
+              - key: MUTUALTLSSUPPORT_CACERT
+                path: ca.crt
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -6,7 +6,7 @@ replicaCount: 2
 
 image:
   repository: falcosecurity/falcosidekick
-  tag: 2.22.0
+  tag: 2.24.0
   pullPolicy: IfNotPresent
 
 podSecurityContext:
@@ -34,7 +34,11 @@ config:
   ##
   ## a list of escaped comma separated custom fields to add to falco events, syntax is "key:value\,key:value"
   customfields: ""
-  checkcert: true
+  mutualtlsfilespath: ""
+
+  ## If mutualtlssupport.enabled is true, mutual tls related secrets will be created on k8s
+  mutualtlssupport:
+    enabled: false
 
   slack:
     webhookurl: ""
@@ -44,6 +48,7 @@ config:
     outputformat: "all"
     minimumpriority: ""
     messageformat: ""
+    checkcert: true
 
   rocketchat:
     webhookurl: ""
@@ -52,6 +57,7 @@ config:
     outputformat: "all"
     minimumpriority: ""
     messageformat: ""
+    checkcert: true
 
   mattermost:
     webhookurl: ""
@@ -61,27 +67,34 @@ config:
     outputformat: "all"
     minimumpriority: ""
     messageformat: ""
+    checkcert: true
 
   teams:
     webhookurl: ""
     activityimage: ""
     outputformat: "all"
     minimumpriority: ""
+    checkcert: true
 
   datadog:
     apikey: ""
     minimumpriority: ""
     host: ""
+    checkcert: true
 
   alertmanager:
     hostport: ""
     minimumpriority: ""
+    mutualtls: false
+    checkcert: true
 
   elasticsearch:
     hostport: ""
     index: "falco"
     type: "event"
     minimumpriority: ""
+    mutualtls: false
+    checkcert: true
 
   influxdb:
     hostport: ""
@@ -89,20 +102,26 @@ config:
     user: ""
     password: ""
     minimumpriority: ""
+    mutualtls: false
+    checkcert: true
 
   loki:
     hostport: ""
     minimumpriority: ""
+    checkcert: true
 
   nats:
     hostport: ""
     minimumpriority: ""
+    mutualtls: false
+    checkcert: true
 
   stan:
     hostport: ""
     clusterid: ""
     clientid: ""
     minimumpriority: ""
+    checkcert: true
 
   aws:
     accesskeyid: ""
@@ -140,6 +159,7 @@ config:
     apikey: ""
     region: ""
     minimumpriority: ""
+    checkcert: true
 
   statsd:
     forwarder: ""
@@ -154,6 +174,8 @@ config:
     address: ""
     customHeaders: ""  # a list of comma separated custom headers to add, syntax is "key:value\,key:value"
     minimumpriority: ""
+    mutualtls: false
+    checkcert: true
 
   azure:
     subscriptionID: ""
@@ -186,6 +208,7 @@ config:
     outputformat: "all"
     minimumpriority: ""
     messageformat: ""
+    checkcert: true
 
   kafka:
     hostport: ""
@@ -193,6 +216,7 @@ config:
     partition: "0"
     messageformat: ""
     minimumpriority: ""
+    checkcert: true
 
   pagerduty:
     apikey: ""
@@ -200,6 +224,7 @@ config:
     assignee: ""
     escalationpolicy: ""
     minimumpriority: ""
+    checkcert: true
 
   kubeless:
     function: ""
